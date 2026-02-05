@@ -1,0 +1,262 @@
+#!/usr/bin/env python3
+"""
+Updates the dashboard HTML with latest data from kalshi_volume_data.json
+"""
+
+import json
+from datetime import datetime
+
+def generate_dashboard_html(data):
+    """Generate the complete dashboard HTML with updated data"""
+
+    # Extract metrics
+    metrics = data.get("metrics", {})
+    daily_data = data.get("daily_data", [])
+    weekly_data = data.get("weekly_data", [])
+    last_updated = data.get("last_updated", datetime.utcnow().strftime("%Y-%m-%d"))
+
+    # Format data for JavaScript
+    daily_js = json.dumps([{"date": d["date"], "volume": d["volume_millions"]} for d in daily_data])
+    weekly_js = json.dumps([{"week": w["week_start"], "volume": w["volume_billions"]} for w in weekly_data])
+
+    # Calculate totals
+    total_volume_b = round(sum(d["volume"] for d in daily_data) / 1e9, 2)
+    recent_daily = daily_data[-1]["volume_millions"] if daily_data else 0
+    recent_daily_revenue = round(recent_daily * 0.02, 2)
+
+    html = f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalshi Notional Volume Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {{ margin: 0; padding: 0; box-sizing: border-box; }}
+        body {{
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #e0e0e0;
+            padding: 20px;
+        }}
+        .container {{ max-width: 1400px; margin: 0 auto; }}
+        .header {{
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }}
+        .header h1 {{
+            font-size: 2.5em;
+            background: linear-gradient(90deg, #00d4ff, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }}
+        .header p {{ color: #888; font-size: 1.1em; }}
+        .auto-update-badge {{
+            display: inline-block;
+            background: linear-gradient(90deg, #4ade80, #22c55e);
+            color: #000;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-top: 10px;
+        }}
+        .metrics-grid {{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }}
+        .metric-card {{
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }}
+        .metric-card .label {{ color: #888; font-size: 0.9em; margin-bottom: 8px; }}
+        .metric-card .value {{ font-size: 1.8em; font-weight: bold; color: #00d4ff; }}
+        .metric-card .subvalue {{ font-size: 0.85em; color: #4ade80; margin-top: 5px; }}
+        .chart-container {{
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }}
+        .chart-header {{ display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }}
+        .chart-title {{ font-size: 1.3em; color: #fff; }}
+        .chart-subtitle {{ color: #888; font-size: 0.9em; }}
+        .chart-wrapper {{ position: relative; height: 350px; }}
+        .notes {{
+            background: rgba(124, 58, 237, 0.1);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }}
+        .notes h3 {{ color: #7c3aed; margin-bottom: 10px; }}
+        .notes ul {{ margin-left: 20px; color: #bbb; }}
+        .notes li {{ margin-bottom: 8px; }}
+        .notes code {{
+            background: rgba(255,255,255,0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+        }}
+        .fee-highlight {{ color: #4ade80; font-weight: bold; }}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Kalshi Notional Volume Dashboard</h1>
+            <p>Daily & Weekly Trading Volume Analysis | Data Source: Kalshi Official API</p>
+            <p style="margin-top: 10px; font-size: 0.9em;">Last Updated: {last_updated}</p>
+            <div class="auto-update-badge">Auto-updates daily via GitHub Actions</div>
+        </div>
+
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="label">24h Volume</div>
+                <div class="value">${metrics.get("volume_24h_millions", 0):.1f}M</div>
+                <div class="subvalue">From Kalshi API</div>
+            </div>
+            <div class="metric-card">
+                <div class="label">Open Interest</div>
+                <div class="value">${metrics.get("open_interest_millions", 0):.1f}M</div>
+                <div class="subvalue">Current positions</div>
+            </div>
+            <div class="metric-card">
+                <div class="label">Active Markets</div>
+                <div class="value">{metrics.get("active_markets", 0):,}</div>
+                <div class="subvalue">Trading now</div>
+            </div>
+            <div class="metric-card">
+                <div class="label">Est. Daily HOOD Revenue</div>
+                <div class="value fee-highlight">${metrics.get("volume_24h_millions", 0) * 0.02:.2f}M</div>
+                <div class="subvalue">$0.02/contract</div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <div class="chart-header">
+                <div>
+                    <div class="chart-title">Daily Notional Volume (Last 90 Days)</div>
+                    <div class="chart-subtitle">Volume = Contracts Traded x $1 Notional</div>
+                </div>
+            </div>
+            <div class="chart-wrapper">
+                <canvas id="dailyChart"></canvas>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <div class="chart-header">
+                <div>
+                    <div class="chart-title">Weekly Notional Volume</div>
+                    <div class="chart-subtitle">Aggregated by ISO Week (Monday start)</div>
+                </div>
+            </div>
+            <div class="chart-wrapper">
+                <canvas id="weeklyChart"></canvas>
+            </div>
+        </div>
+
+        <div class="notes">
+            <h3>Data Methodology</h3>
+            <ul>
+                <li><strong>Data Source:</strong> Kalshi Official API (<code>api.elections.kalshi.com</code>)</li>
+                <li><strong>Update Frequency:</strong> Daily at 6:00 AM UTC via GitHub Actions</li>
+                <li><strong>Volume Definition:</strong> Notional Volume = Contracts traded x $1</li>
+                <li><strong>No Double Counting:</strong> Kalshi counts YES/NO as one contract</li>
+                <li><strong>Fee Structure:</strong> <code>$0.02/contract = $0.01 (HOOD) + $0.01 (Kalshi)</code></li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const dailyData = {daily_js};
+        const weeklyData = {weekly_js};
+
+        // Daily Chart
+        const dailyCtx = document.getElementById('dailyChart').getContext('2d');
+        new Chart(dailyCtx, {{
+            type: 'bar',
+            data: {{
+                labels: dailyData.map(d => d.date),
+                datasets: [{{
+                    label: 'Daily Notional Volume ($M)',
+                    data: dailyData.map(d => d.volume),
+                    backgroundColor: 'rgba(0, 212, 255, 0.6)',
+                    borderColor: 'rgba(0, 212, 255, 1)',
+                    borderWidth: 1,
+                    borderRadius: 2
+                }}]
+            }},
+            options: {{
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {{ legend: {{ display: false }}, tooltip: {{ callbacks: {{ label: (ctx) => '$' + ctx.raw.toFixed(2) + 'M' }} }} }},
+                scales: {{
+                    x: {{ grid: {{ color: 'rgba(255,255,255,0.1)' }}, ticks: {{ color: '#888', maxTicksLimit: 15, maxRotation: 45 }} }},
+                    y: {{ grid: {{ color: 'rgba(255,255,255,0.1)' }}, ticks: {{ color: '#888', callback: (val) => '$' + val + 'M' }} }}
+                }}
+            }}
+        }});
+
+        // Weekly Chart
+        const weeklyCtx = document.getElementById('weeklyChart').getContext('2d');
+        new Chart(weeklyCtx, {{
+            type: 'line',
+            data: {{
+                labels: weeklyData.map(d => d.week),
+                datasets: [{{
+                    label: 'Weekly Notional Volume ($B)',
+                    data: weeklyData.map(d => d.volume),
+                    borderColor: '#7c3aed',
+                    backgroundColor: 'rgba(124, 58, 237, 0.2)',
+                    fill: true,
+                    tension: 0.3,
+                    pointRadius: 6,
+                    pointBackgroundColor: '#7c3aed'
+                }}]
+            }},
+            options: {{
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {{ legend: {{ display: false }}, tooltip: {{ callbacks: {{ label: (ctx) => '$' + ctx.raw.toFixed(3) + 'B' }} }} }},
+                scales: {{
+                    x: {{ grid: {{ color: 'rgba(255,255,255,0.1)' }}, ticks: {{ color: '#888' }} }},
+                    y: {{ grid: {{ color: 'rgba(255,255,255,0.1)' }}, ticks: {{ color: '#888', callback: (val) => '$' + val + 'B' }}, min: 0 }}
+                }}
+            }}
+        }});
+    </script>
+</body>
+</html>'''
+
+    return html
+
+def main():
+    # Load data
+    with open("kalshi_volume_data.json", "r") as f:
+        data = json.load(f)
+
+    # Generate HTML
+    html = generate_dashboard_html(data)
+
+    # Save
+    with open("index.html", "w") as f:
+        f.write(html)
+
+    print(f"Dashboard updated: index.html")
+
+if __name__ == "__main__":
+    main()
