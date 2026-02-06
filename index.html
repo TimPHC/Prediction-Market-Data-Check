@@ -1,363 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kalshi Notional Volume Dashboard</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            min-height: 100vh;
-            color: #e0e0e0;
-            padding: 20px;
-        }
-        .container { max-width: 1400px; margin: 0 auto; }
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 15px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .header h1 {
-            font-size: 2.5em;
-            background: linear-gradient(90deg, #00d4ff, #7c3aed);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
-        }
-        .header p { color: #888; font-size: 1.1em; }
-        .auto-update-badge {
-            display: inline-block;
-            background: linear-gradient(90deg, #4ade80, #22c55e);
-            color: #000;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.8em;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        .metric-card {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-        }
-        .metric-card .label { color: #888; font-size: 0.9em; margin-bottom: 8px; }
-        .metric-card .value { font-size: 1.8em; font-weight: bold; color: #00d4ff; }
-        .metric-card .subvalue { font-size: 0.85em; color: #4ade80; margin-top: 5px; }
-        .chart-container {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 30px;
-        }
-        .chart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .chart-title { font-size: 1.3em; color: #fff; }
-        .chart-subtitle { color: #888; font-size: 0.9em; }
-        .chart-wrapper { position: relative; height: 350px; }
-        .notes {
-            background: rgba(124, 58, 237, 0.1);
-            border: 1px solid rgba(124, 58, 237, 0.3);
-            border-radius: 10px;
-            padding: 20px;
-            margin-top: 20px;
-        }
-        .notes h3 { color: #7c3aed; margin-bottom: 10px; }
-        .notes ul { margin-left: 20px; color: #bbb; }
-        .notes li { margin-bottom: 8px; }
-        .notes code {
-            background: rgba(255,255,255,0.1);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: monospace;
-        }
-        .fee-highlight { color: #4ade80; font-weight: bold; }
-
-        /* Fee Input Styles */
-        .fee-input-card {
-            background: rgba(74, 222, 128, 0.1) !important;
-            border: 2px solid rgba(74, 222, 128, 0.4) !important;
-        }
-        .fee-input-wrapper {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 10px 0;
-        }
-        .fee-prefix {
-            font-size: 1.5em;
-            font-weight: bold;
-            color: #4ade80;
-            margin-right: 4px;
-        }
-        .fee-input {
-            width: 100px;
-            padding: 8px 12px;
-            font-size: 1.5em;
-            font-weight: bold;
-            text-align: center;
-            background: rgba(255,255,255,0.1);
-            border: 2px solid rgba(74, 222, 128, 0.5);
-            border-radius: 8px;
-            color: #4ade80;
-            outline: none;
-            transition: all 0.2s;
-        }
-        .fee-input:focus {
-            border-color: #4ade80;
-            box-shadow: 0 0 10px rgba(74, 222, 128, 0.3);
-        }
-        .fee-input::-webkit-inner-spin-button,
-        .fee-input::-webkit-outer-spin-button {
-            opacity: 1;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>📊 Kalshi Notional Volume Dashboard</h1>
-            <p>Daily & Weekly Trading Volume Analysis | Data Source: Kalshi Official API</p>
-            <p style="margin-top: 10px; font-size: 0.9em;">Last Updated: 2026-02-05 18:27:29 UTC</p>
-            <div class="auto-update-badge">🔄 Auto-updates daily via GitHub Actions</div>
-        </div>
-
-        <div class="metrics-grid">
-            <div class="metric-card">
-                <div class="label">24h Volume</div>
-                <div class="value">$292.1M</div>
-                <div class="subvalue">From Kalshi API</div>
-            </div>
-            <div class="metric-card">
-                <div class="label">Open Interest</div>
-                <div class="value">$466.7M</div>
-                <div class="subvalue">Current positions</div>
-            </div>
-            <div class="metric-card">
-                <div class="label">Active Markets</div>
-                <div class="value">1,185</div>
-                <div class="subvalue">Trading now</div>
-            </div>
-            <div class="metric-card fee-input-card">
-                <div class="label">HOOD Fee Rate ($/contract)</div>
-                <div class="fee-input-wrapper">
-                    <span class="fee-prefix">$</span>
-                    <input type="number" id="feeRate" value="0.01" min="0.001" max="0.10" step="0.001" class="fee-input">
-                </div>
-                <div class="subvalue">Adjust to recalculate revenue</div>
-            </div>
-            <div class="metric-card">
-                <div class="label">Est. Daily HOOD PM Revenue</div>
-                <div class="value fee-highlight" id="dailyRevenue">$0.00M</div>
-                <div class="subvalue">24h Volume × Fee Rate</div>
-            </div>
-            <div class="metric-card">
-                <div class="label">Est. Weekly HOOD PM Revenue</div>
-                <div class="value fee-highlight" id="weeklyRevenue">$0.00M</div>
-                <div class="subvalue">Latest week</div>
-            </div>
-            <div class="metric-card">
-                <div class="label">Est. Monthly HOOD PM Revenue</div>
-                <div class="value fee-highlight" id="monthlyRevenue">$0.0M</div>
-                <div class="subvalue">Weekly × 4.3 weeks</div>
-            </div>
-            <div class="metric-card">
-                <div class="label">Est. Annualized HOOD PM Revenue</div>
-                <div class="value fee-highlight" id="annualRevenue">$0M</div>
-                <div class="subvalue">Monthly × 12</div>
-            </div>
-        </div>
-
-        <div class="chart-container">
-            <div class="chart-header">
-                <div>
-                    <div class="chart-title">📈 Daily Notional Volume (Last 90 Days)</div>
-                    <div class="chart-subtitle">Volume = Contracts Traded × $1 Notional</div>
-                </div>
-            </div>
-            <div class="chart-wrapper">
-                <canvas id="dailyChart"></canvas>
-            </div>
-        </div>
-
-        <div class="chart-container">
-            <div class="chart-header">
-                <div>
-                    <div class="chart-title">📊 Weekly Notional Volume</div>
-                    <div class="chart-subtitle">Aggregated by ISO Week (Monday start)</div>
-                </div>
-            </div>
-            <div class="chart-wrapper">
-                <canvas id="weeklyChart"></canvas>
-            </div>
-        </div>
-
-        <div class="chart-container">
-            <div class="chart-header">
-                <div>
-                    <div class="chart-title">💰 Estimated HOOD PM Revenue (Weekly)</div>
-                    <div class="chart-subtitle" id="revenueChartSubtitle">HOOD gets $0.01/contract (adjustable above)</div>
-                </div>
-            </div>
-            <div class="chart-wrapper">
-                <canvas id="revenueChart"></canvas>
-            </div>
-        </div>
-
-        <div class="notes">
-            <h3>📝 Data Methodology</h3>
-            <ul>
-                <li><strong>Data Source:</strong> Kalshi Official API (<code>api.elections.kalshi.com</code>)</li>
-                <li><strong>Update Frequency:</strong> Daily at 6:00 AM UTC via GitHub Actions</li>
-                <li><strong>Volume Definition:</strong> Notional Volume = Contracts traded × $1</li>
-                <li><strong>No Double Counting:</strong> Kalshi counts YES/NO as one contract</li>
-                <li><strong>Fee Structure:</strong> <code>$0.02/contract = $0.01 (HOOD) + $0.01 (Kalshi)</code> - adjustable above</li>
-                <li><strong>HOOD PM Revenue:</strong> Volume × Fee Rate (editable)</li>
-                <li><strong>Monthly Estimate:</strong> Weekly Revenue × 4.3 weeks/month</li>
-                <li><strong>Annual Estimate:</strong> Monthly Revenue × 12 months</li>
-            </ul>
-        </div>
-    </div>
-
-    <script>
-        const dailyData = [{"date": "2025-11-07", "volume": 285.07}, {"date": "2025-11-08", "volume": 187.23}, {"date": "2025-11-09", "volume": 186.13}, {"date": "2025-11-10", "volume": 302.79}, {"date": "2025-11-11", "volume": 279.29}, {"date": "2025-11-12", "volume": 260.97}, {"date": "2025-11-13", "volume": 256.16}, {"date": "2025-11-14", "volume": 267.18}, {"date": "2025-11-15", "volume": 162.88}, {"date": "2025-11-16", "volume": 185.63}, {"date": "2025-11-17", "volume": 358.12}, {"date": "2025-11-18", "volume": 282.06}, {"date": "2025-11-19", "volume": 274.13}, {"date": "2025-11-20", "volume": 341.23}, {"date": "2025-11-21", "volume": 323.86}, {"date": "2025-11-22", "volume": 202.2}, {"date": "2025-11-23", "volume": 132.7}, {"date": "2025-11-24", "volume": 261.55}, {"date": "2025-11-25", "volume": 290.43}, {"date": "2025-11-26", "volume": 289.3}, {"date": "2025-11-27", "volume": 289.66}, {"date": "2025-11-28", "volume": 280.2}, {"date": "2025-11-29", "volume": 171.27}, {"date": "2025-11-30", "volume": 165.24}, {"date": "2025-12-01", "volume": 352.21}, {"date": "2025-12-02", "volume": 319.25}, {"date": "2025-12-03", "volume": 321.56}, {"date": "2025-12-04", "volume": 318.57}, {"date": "2025-12-05", "volume": 275.13}, {"date": "2025-12-06", "volume": 158.98}, {"date": "2025-12-07", "volume": 191.51}, {"date": "2025-12-08", "volume": 375.9}, {"date": "2025-12-09", "volume": 308.79}, {"date": "2025-12-10", "volume": 295.26}, {"date": "2025-12-11", "volume": 292.49}, {"date": "2025-12-12", "volume": 288.93}, {"date": "2025-12-13", "volume": 208.1}, {"date": "2025-12-14", "volume": 170.29}, {"date": "2025-12-15", "volume": 306.51}, {"date": "2025-12-16", "volume": 358.83}, {"date": "2025-12-17", "volume": 367.74}, {"date": "2025-12-18", "volume": 386.28}, {"date": "2025-12-19", "volume": 304.32}, {"date": "2025-12-20", "volume": 133.2}, {"date": "2025-12-21", "volume": 130.19}, {"date": "2025-12-22", "volume": 274.25}, {"date": "2025-12-23", "volume": 324.83}, {"date": "2025-12-24", "volume": 313.31}, {"date": "2025-12-25", "volume": 387.67}, {"date": "2025-12-26", "volume": 381.53}, {"date": "2025-12-27", "volume": 185.72}, {"date": "2025-12-28", "volume": 140.38}, {"date": "2025-12-29", "volume": 354.97}, {"date": "2025-12-30", "volume": 309.4}, {"date": "2025-12-31", "volume": 368.45}, {"date": "2026-01-01", "volume": 302.36}, {"date": "2026-01-02", "volume": 323.56}, {"date": "2026-01-03", "volume": 215.63}, {"date": "2026-01-04", "volume": 192.47}, {"date": "2026-01-05", "volume": 375.35}, {"date": "2026-01-06", "volume": 371.37}, {"date": "2026-01-07", "volume": 369.91}, {"date": "2026-01-08", "volume": 321.87}, {"date": "2026-01-09", "volume": 321.1}, {"date": "2026-01-10", "volume": 152.93}, {"date": "2026-01-11", "volume": 198.36}, {"date": "2026-01-12", "volume": 336.25}, {"date": "2026-01-13", "volume": 377.76}, {"date": "2026-01-14", "volume": 370.95}, {"date": "2026-01-15", "volume": 413.13}, {"date": "2026-01-16", "volume": 391.56}, {"date": "2026-01-17", "volume": 139.8}, {"date": "2026-01-18", "volume": 148.52}, {"date": "2026-01-19", "volume": 421.18}, {"date": "2026-01-20", "volume": 402.48}, {"date": "2026-01-21", "volume": 393.81}, {"date": "2026-01-22", "volume": 301.48}, {"date": "2026-01-23", "volume": 399.87}, {"date": "2026-01-24", "volume": 183.05}, {"date": "2026-01-25", "volume": 187.91}, {"date": "2026-01-26", "volume": 345.25}, {"date": "2026-01-27", "volume": 337.35}, {"date": "2026-01-28", "volume": 313.8}, {"date": "2026-01-29", "volume": 322.8}, {"date": "2026-01-30", "volume": 310.11}, {"date": "2026-01-31", "volume": 199.89}, {"date": "2026-02-01", "volume": 183.31}, {"date": "2026-02-02", "volume": 417.7}, {"date": "2026-02-03", "volume": 385.29}, {"date": "2026-02-04", "volume": 396.5}];
-        const weeklyData = [{"week": "2025-11-03", "volume": 0.658}, {"week": "2025-11-10", "volume": 1.715}, {"week": "2025-11-17", "volume": 1.914}, {"week": "2025-11-24", "volume": 1.748}, {"week": "2025-12-01", "volume": 1.937}, {"week": "2025-12-08", "volume": 1.94}, {"week": "2025-12-15", "volume": 1.987}, {"week": "2025-12-22", "volume": 2.008}, {"week": "2025-12-29", "volume": 2.067}, {"week": "2026-01-05", "volume": 2.111}, {"week": "2026-01-12", "volume": 2.178}, {"week": "2026-01-19", "volume": 2.29}, {"week": "2026-01-26", "volume": 2.013}, {"week": "2026-02-02", "volume": 1.199}];
-
-        // Volume metrics for revenue calculation
-        const dailyVolume24h = 292.11;
-        const latestWeekVolumeB = 1.199;
-        const latestWeekVolumeM = latestWeekVolumeB * 1000;
-
-        // Revenue chart reference (will be created later)
-        let revenueChart = null;
-
-        // Function to update all revenue displays
-        function updateRevenueDisplays() {
-            const feeRate = parseFloat(document.getElementById('feeRate').value) || 0.01;
-
-            // Calculate revenues
-            const dailyRevenue = dailyVolume24h * feeRate;
-            const weeklyRevenue = latestWeekVolumeM * feeRate;
-            const monthlyRevenue = weeklyRevenue * 4.3;
-            const annualRevenue = monthlyRevenue * 12;
-
-            // Update metric cards
-            document.getElementById('dailyRevenue').textContent = '$' + dailyRevenue.toFixed(2) + 'M';
-            document.getElementById('weeklyRevenue').textContent = '$' + weeklyRevenue.toFixed(2) + 'M';
-            document.getElementById('monthlyRevenue').textContent = '$' + monthlyRevenue.toFixed(1) + 'M';
-            document.getElementById('annualRevenue').textContent = '$' + Math.round(annualRevenue) + 'M';
-
-            // Update chart subtitle
-            document.getElementById('revenueChartSubtitle').textContent =
-                'HOOD gets $' + feeRate.toFixed(3) + '/contract (adjustable above)';
-
-            // Update revenue chart data
-            if (revenueChart) {
-                revenueChart.data.datasets[0].data = weeklyData.map(d => (d.volume * 1000 * feeRate).toFixed(2));
-                revenueChart.update();
-            }
-        }
-
-        // Add event listener for fee rate input
-        document.getElementById('feeRate').addEventListener('input', updateRevenueDisplays);
-        document.getElementById('feeRate').addEventListener('change', updateRevenueDisplays);
-
-        // Daily Chart
-        const dailyCtx = document.getElementById('dailyChart').getContext('2d');
-        new Chart(dailyCtx, {
-            type: 'bar',
-            data: {
-                labels: dailyData.map(d => d.date),
-                datasets: [{
-                    label: 'Daily Notional Volume ($M)',
-                    data: dailyData.map(d => d.volume),
-                    backgroundColor: 'rgba(0, 212, 255, 0.6)',
-                    borderColor: 'rgba(0, 212, 255, 1)',
-                    borderWidth: 1,
-                    borderRadius: 2
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx) => `$$${ctx.raw.toFixed(2)}M` } } },
-                scales: {
-                    x: { grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#888', maxTicksLimit: 15, maxRotation: 45 } },
-                    y: { grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#888', callback: (val) => '$' + val + 'M' } }
-                }
-            }
-        });
-
-        // Weekly Chart
-        const weeklyCtx = document.getElementById('weeklyChart').getContext('2d');
-        new Chart(weeklyCtx, {
-            type: 'line',
-            data: {
-                labels: weeklyData.map(d => d.week),
-                datasets: [{
-                    label: 'Weekly Notional Volume ($B)',
-                    data: weeklyData.map(d => d.volume),
-                    borderColor: '#7c3aed',
-                    backgroundColor: 'rgba(124, 58, 237, 0.2)',
-                    fill: true,
-                    tension: 0.3,
-                    pointRadius: 6,
-                    pointBackgroundColor: '#7c3aed'
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx) => `$$${ctx.raw.toFixed(3)}B` } } },
-                scales: {
-                    x: { grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#888' } },
-                    y: { grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#888', callback: (val) => '$' + val + 'B' }, min: 0 }
-                }
-            }
-        });
-
-        // Revenue Chart (with dynamic fee rate)
-        const revenueCtx = document.getElementById('revenueChart').getContext('2d');
-        const initialFeeRate = parseFloat(document.getElementById('feeRate').value) || 0.01;
-        revenueChart = new Chart(revenueCtx, {
-            type: 'bar',
-            data: {
-                labels: weeklyData.map(d => d.week),
-                datasets: [{
-                    label: 'Est. HOOD PM Revenue ($M)',
-                    data: weeklyData.map(d => (d.volume * 1000 * initialFeeRate).toFixed(2)),
-                    backgroundColor: 'rgba(74, 222, 128, 0.6)',
-                    borderColor: 'rgba(74, 222, 128, 1)',
-                    borderWidth: 1,
-                    borderRadius: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx) => `$$${ctx.raw}M` } } },
-                scales: {
-                    x: { grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#888' } },
-                    y: { grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#888', callback: (val) => '$' + val + 'M' } }
-                }
-            }
-        });
-
-        // Initialize revenue displays on page load
-        updateRevenueDisplays();
-    </script>
-</body>
-</html>
+    <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Prediction Market Dashboards</title>
+        <style>
+                    * { margin: 0; padding: 0; box-sizing: border-box; }
+                    body {
+                                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                                    background: linear-gradient(135deg, #0a0a1a 0%, #1a1a3e 50%, #0f2027 100%);
+                                    min-height: 100vh;
+                                    color: #e0e0e0;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    padding: 20px;
+                    }
+                    .container { max-width: 900px; width: 100%; }
+                    .header { text-align: center; margin-bottom: 50px; }
+                    .header h1 {
+                                    font-size: 3em;
+                                    background: linear-gradient(90deg, #00d4ff, #7c3aed, #ff6b35);
+                                    -webkit-background-clip: text;
+                                    -webkit-text-fill-color: transparent;
+                                    margin-bottom: 15px;
+                    }
+                    .header p { color: #888; font-size: 1.2em; }
+                    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+                    .card {
+                                    background: rgba(255,255,255,0.05);
+                                    border: 1px solid rgba(255,255,255,0.1);
+                                    border-radius: 20px;
+                                    padding: 40px 30px;
+                                    text-align: center;
+                                    transition: all 0.3s ease;
+                                    text-decoration: none;
+                                    display: block;
+                    }
+                    .card:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.3); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+                    .card.kalshi { background: linear-gradient(135deg, rgba(0,212,255,0.1) 0%, rgba(124,58,237,0.1) 100%); border-color: rgba(0,212,255,0.3); }
+                    .card.kalshi:hover { border-color: rgba(0,212,255,0.6); box-shadow: 0 20px 40px rgba(0,212,255,0.2); }
+                    .card.polymarket { background: linear-gradient(135deg, rgba(255,107,53,0.1) 0%, rgba(247,147,30,0.1) 100%); border-color: rgba(255,107,53,0.3); }
+                    .card.polymarket:hover { border-color: rgba(255,107,53,0.6); box-shadow: 0 20px 40px rgba(255,107,53,0.2); }
+                    .card-icon { font-size: 4em; margin-bottom: 20px; }
+                    .card-title { font-size: 1.8em; font-weight: bold; margin-bottom: 10px; }
+                    .card.kalshi .card-title { color: #00d4ff; }
+                    .card.polymarket .card-title { color: #ff6b35; }
+                    .card-desc { color: #888; font-size: 1em; margin-bottom: 20px; }
+                    .card-badge { display: inline-block; padding: 6px 14px; border-radius: 20px; font-size: 0.85em; font-weight: bold; }
+                    .card.kalshi .card-badge { background: rgba(0,212,255,0.2); color: #00d4ff; }
+                    .card.polymarket .card-badge { background: rgba(255,107,53,0.2); color: #ff6b35; }
+                    .footer { text-align: center; margin-top: 50px; color: #555; font-size: 0.9em; }
+                    .footer a { color: #7c3aed; text-decoration: none; }
+                    .auto-badge { display: inline-block; background: linear-gradient(90deg, #4ade80, #22c55e); color: #000; padding: 6px 16px; border-radius: 20px; font-size: 0.85em; font-weight: bold; margin-top: 30px; }
+                </style>
+    </head>
+    <body>
+            <div class="container">
+                        <div class="header">
+                                        <h1>Prediction Market Dashboards</h1>
+                                    <p>Daily and Weekly Volume Analytics for Major Platforms</p>
+                                    <div class="auto-badge">Auto-updated daily via GitHub Actions</div>div>
+                        </div>div>
+                    <div class="cards">
+                                <a href="kalshi/" class="card kalshi">
+                                                <div class="card-icon">📈</div>div>
+                                                <div class="card-title">Kalshi</div>div>
+                                                <div class="card-desc">US regulated prediction market (CFTC DCM)</div>div>
+                                                <div class="card-badge">+ HOOD Revenue Estimates</div>div>
+                                </a>a>
+                                <a href="polymarket/" class="card polymarket">
+                                                <div class="card-icon">🔮</div>div>
+                                                <div class="card-title">Polymarket</div>div>
+                                                <div class="card-desc">Decentralized prediction market on Polygon</div>div>
+                                                <div class="card-badge">Single-sided Notional</div>div>
+                                </a>a>
+                    </div>div>
+                    <div class="footer">
+                                <p>Data Source: Official APIs | Volume Methodology: Single-sided Notional (No Double Counting)</p>
+                                <p style="margin-top: 10px;"><a href="https://github.com/TimPHC/Prediction-Market-Data-Check" target="_blank">View on GitHub</a>a></p>
+                    </div>div>
+            </div>div>
+    </body>
+</html>html></p></p></h1>
+    </body>
+        </style></title>
+    </head>
