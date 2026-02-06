@@ -3,241 +3,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Polymarket Volume Dashboard</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Polymarket Dashboard</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+            background: linear-gradient(135deg, #1a0a2e 0%, #2d1b4e 50%, #1a1a2e 100%);
             min-height: 100vh;
             color: #e0e0e0;
             padding: 20px;
         }
-        .container { max-width: 1400px; margin: 0 auto; }
+        .container { max-width: 1200px; margin: 0 auto; }
         .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 15px;
-            border: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255,107,53,0.3);
         }
         .header h1 {
-            font-size: 2.5em;
+            font-size: 2em;
             background: linear-gradient(90deg, #ff6b35, #f7931e);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
         }
-        .header p { color: #888; font-size: 1.1em; }
-        .auto-update-badge {
+        .back-link { color: #888; text-decoration: none; font-size: 0.9em; }
+        .back-link:hover { color: #ff6b35; }
+        .update-info { text-align: center; margin-bottom: 30px; }
+        .update-badge {
             display: inline-block;
-            background: linear-gradient(90deg, #ff6b35, #f7931e);
-            color: #000;
-            padding: 4px 12px;
+            background: rgba(255,107,53,0.2);
+            color: #ff6b35;
+            padding: 8px 20px;
             border-radius: 20px;
-            font-size: 0.8em;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-        .chain-badge {
-            display: inline-block;
-            background: rgba(130, 71, 229, 0.3);
-            color: #a78bfa;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.8em;
-            font-weight: bold;
-            margin-top: 10px;
-            margin-left: 10px;
-            border: 1px solid rgba(130, 71, 229, 0.5);
+            font-size: 0.85em;
         }
         .metrics-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 20px;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
         }
+        @media (max-width: 768px) { .metrics-grid { grid-template-columns: 1fr; } }
         .metric-card {
             background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
-            padding: 20px;
+            border: 1px solid rgba(255,107,53,0.3);
+            border-radius: 16px;
+            padding: 30px;
             text-align: center;
         }
-        .metric-card .label { color: #888; font-size: 0.9em; margin-bottom: 8px; }
-        .metric-card .value { font-size: 1.8em; font-weight: bold; color: #ff6b35; }
-        .metric-card .subvalue { font-size: 0.85em; color: #f7931e; margin-top: 5px; }
-        .chart-container {
-            background: rgba(255,255,255,0.05);
+        .metric-label { color: #888; font-size: 0.9em; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+        .metric-value { font-size: 2.5em; font-weight: bold; color: #ff6b35; margin-bottom: 5px; }
+        .metric-sub { color: #666; font-size: 0.85em; }
+        .data-source {
+            background: rgba(255,255,255,0.03);
             border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 15px;
+            border-radius: 16px;
             padding: 25px;
             margin-bottom: 30px;
         }
-        .chart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .chart-title { font-size: 1.3em; color: #fff; }
-        .chart-subtitle { color: #888; font-size: 0.9em; }
-        .chart-wrapper { position: relative; height: 350px; }
-        .notes {
-            background: rgba(255, 107, 53, 0.1);
-            border: 1px solid rgba(255, 107, 53, 0.3);
-            border-radius: 10px;
-            padding: 20px;
-            margin-top: 20px;
-        }
-        .notes h3 { color: #ff6b35; margin-bottom: 10px; }
-        .notes ul { margin-left: 20px; color: #bbb; }
-        .notes li { margin-bottom: 8px; }
-        .notes code {
-            background: rgba(255,255,255,0.1);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: monospace;
-        }
-        .nav-link {
+        .data-source h3 { color: #ff6b35; margin-bottom: 15px; font-size: 1.1em; }
+        .data-source p { color: #888; font-size: 0.9em; line-height: 1.6; }
+        .data-source code { background: rgba(255,107,53,0.1); padding: 2px 8px; border-radius: 4px; color: #ff6b35; }
+        .verify-section { text-align: center; padding: 30px; background: rgba(255,255,255,0.03); border-radius: 16px; }
+        .verify-section h3 { color: #888; font-size: 1em; margin-bottom: 15px; }
+        .verify-link {
             display: inline-block;
-            background: rgba(255,255,255,0.1);
-            color: #00d4ff;
-            padding: 8px 16px;
-            border-radius: 8px;
+            background: linear-gradient(90deg, #ff6b35, #f7931e);
+            color: #000;
+            padding: 12px 30px;
+            border-radius: 25px;
             text-decoration: none;
-            margin-top: 15px;
-            transition: all 0.2s;
+            font-weight: bold;
         }
-        .nav-link:hover {
-            background: rgba(0, 212, 255, 0.2);
-        }
+        .footer { text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); color: #555; font-size: 0.85em; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>Polymarket Volume Dashboard</h1>
-            <p>Daily & Weekly Trading Volume Analysis | Data Source: Gamma API</p>
-            <p style="margin-top: 10px; font-size: 0.9em;">Last Updated: 2026-02-05 23:36:45 UTC</p>
-            <div class="auto-update-badge">Auto-updates daily via GitHub Actions</div>
-            <div class="chain-badge">Polygon Chain</div>
-            <br>
-            <a href="../" class="nav-link">Home</a>
-            <a href="../kalshi/" class="nav-link" style="margin-left:10px;background:rgba(0,212,255,0.2);color:#00d4ff;border:1px solid rgba(0,212,255,0.4);">Kalshi</a>
+            <h1>🔮 Polymarket Volume Snapshot</h1>
+            <a href="../" class="back-link">← Back to Dashboard</a>
         </div>
-
+        <div class="update-info">
+            <span class="update-badge">Last Updated: <span id="lastUpdate">Loading...</span></span>
+        </div>
         <div class="metrics-grid">
             <div class="metric-card">
-                <div class="label">24h Volume</div>
-                <div class="value">$80.0M</div>
-                <div class="subvalue">Single-sided Notional</div>
+                <div class="metric-label">24 Hour Volume</div>
+                <div class="metric-value" id="volume24hr">--</div>
+                <div class="metric-sub">Rolling 24h</div>
             </div>
             <div class="metric-card">
-                <div class="label">Open Interest</div>
-                <div class="value">$400.0M</div>
-                <div class="subvalue">Current positions</div>
+                <div class="metric-label">7 Day Volume</div>
+                <div class="metric-value" id="volume1wk">--</div>
+                <div class="metric-sub">Past 7 days</div>
             </div>
             <div class="metric-card">
-                <div class="label">Liquidity</div>
-                <div class="value">$50.0M</div>
-                <div class="subvalue">Market depth</div>
-            </div>
-            <div class="metric-card">
-                <div class="label">Active Markets</div>
-                <div class="value">500</div>
-                <div class="subvalue">Trading now</div>
+                <div class="metric-label">30 Day Volume</div>
+                <div class="metric-value" id="volume1mo">--</div>
+                <div class="metric-sub">Past 30 days</div>
             </div>
         </div>
-
-        <div class="chart-container">
-            <div class="chart-header">
-                <div>
-                    <div class="chart-title">Daily Notional Volume (Last 90 Days)</div>
-                    <div class="chart-subtitle">Volume = Single-sided Taker Notional (No Double Counting)</div>
-                </div>
-            </div>
-            <div class="chart-wrapper">
-                <canvas id="dailyChart"></canvas>
-            </div>
+        <div class="data-source">
+            <h3>📊 Data Source</h3>
+            <p>Data fetched from <code>Polymarket Gamma API</code>: <code>https://gamma-api.polymarket.com/markets</code></p>
+            <p style="margin-top: 10px;">Fields: <code>volume24hr</code>, <code>volume1wk</code>, <code>volume1mo</code> — Single-sided notional.</p>
         </div>
-
-        <div class="chart-container">
-            <div class="chart-header">
-                <div>
-                    <div class="chart-title">Weekly Notional Volume</div>
-                    <div class="chart-subtitle">Aggregated by ISO Week (Monday start)</div>
-                </div>
-            </div>
-            <div class="chart-wrapper">
-                <canvas id="weeklyChart"></canvas>
-            </div>
+        <div class="verify-section">
+            <h3>Verify Against Dune Analytics</h3>
+            <a href="https://dune.com/rchen8/polymarket" target="_blank" class="verify-link">Open Dune Dashboard →</a>
         </div>
-
-        <div class="notes">
-            <h3>Data Methodology</h3>
-            <ul>
-                <li><strong>Data Source:</strong> Polymarket Gamma API (<code>gamma-api.polymarket.com</code>)</li>
-                <li><strong>Update Frequency:</strong> Daily at 6:00 AM UTC via GitHub Actions</li>
-                <li><strong>Volume Definition:</strong> Single-sided Notional Volume (Taker side only)</li>
-                <li><strong>No Double Counting:</strong> Following Paradigm's methodology - counts each trade once</li>
-                <li><strong>Chain:</strong> Polygon (Matic) - all trades settled on-chain</li>
-            </ul>
+        <div class="footer">
+            <p>Auto-updated daily via GitHub Actions | <a href="https://github.com/TimPHC/Prediction-Market-Data-Check" style="color:#ff6b35;">View Source</a></p>
         </div>
     </div>
-
     <script>
-        const dailyData = [{"date": "2025-11-07", "volume": 85.6}, {"date": "2025-11-08", "volume": 49.7}, {"date": "2025-11-09", "volume": 54.62}, {"date": "2025-11-10", "volume": 68.41}, {"date": "2025-11-11", "volume": 70.16}, {"date": "2025-11-12", "volume": 76.76}, {"date": "2025-11-13", "volume": 85.82}, {"date": "2025-11-14", "volume": 73.82}, {"date": "2025-11-15", "volume": 50.39}, {"date": "2025-11-16", "volume": 61.08}, {"date": "2025-11-17", "volume": 82.42}, {"date": "2025-11-18", "volume": 72.77}, {"date": "2025-11-19", "volume": 86.84}, {"date": "2025-11-20", "volume": 92.75}, {"date": "2025-11-21", "volume": 71.55}, {"date": "2025-11-22", "volume": 55.21}, {"date": "2025-11-23", "volume": 65.22}, {"date": "2025-11-24", "volume": 76.1}, {"date": "2025-11-25", "volume": 74.59}, {"date": "2025-11-26", "volume": 88.85}, {"date": "2025-11-27", "volume": 86.53}, {"date": "2025-11-28", "volume": 90.03}, {"date": "2025-11-29", "volume": 56.79}, {"date": "2025-11-30", "volume": 59.41}, {"date": "2025-12-01", "volume": 78.81}, {"date": "2025-12-02", "volume": 94.92}, {"date": "2025-12-03", "volume": 93.42}, {"date": "2025-12-04", "volume": 75.89}, {"date": "2025-12-05", "volume": 89.55}, {"date": "2025-12-06", "volume": 58.4}, {"date": "2025-12-07", "volume": 51.73}, {"date": "2025-12-08", "volume": 74.76}, {"date": "2025-12-09", "volume": 87.67}, {"date": "2025-12-10", "volume": 97.22}, {"date": "2025-12-11", "volume": 89.71}, {"date": "2025-12-12", "volume": 89.02}, {"date": "2025-12-13", "volume": 61.75}, {"date": "2025-12-14", "volume": 67.02}, {"date": "2025-12-15", "volume": 98.13}, {"date": "2025-12-16", "volume": 74.17}, {"date": "2025-12-17", "volume": 97.63}, {"date": "2025-12-18", "volume": 96.08}, {"date": "2025-12-19", "volume": 86.72}, {"date": "2025-12-20", "volume": 57.34}, {"date": "2025-12-21", "volume": 53.96}, {"date": "2025-12-22", "volume": 90.69}, {"date": "2025-12-23", "volume": 86.49}, {"date": "2025-12-24", "volume": 89.27}, {"date": "2025-12-25", "volume": 97.32}, {"date": "2025-12-26", "volume": 96.62}, {"date": "2025-12-27", "volume": 56.32}, {"date": "2025-12-28", "volume": 56.42}, {"date": "2025-12-29", "volume": 86.55}, {"date": "2025-12-30", "volume": 82.29}, {"date": "2025-12-31", "volume": 97.5}, {"date": "2026-01-01", "volume": 77.26}, {"date": "2026-01-02", "volume": 99.64}, {"date": "2026-01-03", "volume": 59.71}, {"date": "2026-01-04", "volume": 53.57}, {"date": "2026-01-05", "volume": 84.97}, {"date": "2026-01-06", "volume": 89.6}, {"date": "2026-01-07", "volume": 96.04}, {"date": "2026-01-08", "volume": 95.32}, {"date": "2026-01-09", "volume": 79.27}, {"date": "2026-01-10", "volume": 62.27}, {"date": "2026-01-11", "volume": 54.24}, {"date": "2026-01-12", "volume": 87.84}, {"date": "2026-01-13", "volume": 90.72}, {"date": "2026-01-14", "volume": 89.97}, {"date": "2026-01-15", "volume": 88.31}, {"date": "2026-01-16", "volume": 89.38}, {"date": "2026-01-17", "volume": 54.82}, {"date": "2026-01-18", "volume": 66.81}, {"date": "2026-01-19", "volume": 88.93}, {"date": "2026-01-20", "volume": 78.98}, {"date": "2026-01-21", "volume": 82.8}, {"date": "2026-01-22", "volume": 103.22}, {"date": "2026-01-23", "volume": 104.32}, {"date": "2026-01-24", "volume": 59.19}, {"date": "2026-01-25", "volume": 63.92}, {"date": "2026-01-26", "volume": 90.02}, {"date": "2026-01-27", "volume": 82.73}, {"date": "2026-01-28", "volume": 97.78}, {"date": "2026-01-29", "volume": 84.88}, {"date": "2026-01-30", "volume": 84.1}, {"date": "2026-01-31", "volume": 65.52}, {"date": "2026-02-01", "volume": 67.51}, {"date": "2026-02-02", "volume": 103.31}, {"date": "2026-02-03", "volume": 93.14}, {"date": "2026-02-04", "volume": 102.72}];
-        const weeklyData = [{"week": "2025-11-03", "volume": 0.19}, {"week": "2025-11-10", "volume": 0.486}, {"week": "2025-11-17", "volume": 0.527}, {"week": "2025-11-24", "volume": 0.532}, {"week": "2025-12-01", "volume": 0.543}, {"week": "2025-12-08", "volume": 0.567}, {"week": "2025-12-15", "volume": 0.564}, {"week": "2025-12-22", "volume": 0.573}, {"week": "2025-12-29", "volume": 0.557}, {"week": "2026-01-05", "volume": 0.562}, {"week": "2026-01-12", "volume": 0.568}, {"week": "2026-01-19", "volume": 0.581}, {"week": "2026-01-26", "volume": 0.573}, {"week": "2026-02-02", "volume": 0.299}];
-
-        const dailyCtx = document.getElementById('dailyChart').getContext('2d');
-        new Chart(dailyCtx, {
-            type: 'bar',
-            data: {
-                labels: dailyData.map(d => d.date),
-                datasets: [{
-                    label: 'Daily Notional Volume ($M)',
-                    data: dailyData.map(d => d.volume),
-                    backgroundColor: 'rgba(255, 107, 53, 0.6)',
-                    borderColor: 'rgba(255, 107, 53, 1)',
-                    borderWidth: 1,
-                    borderRadius: 2
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx) => '$' + ctx.raw.toFixed(2) + 'M' } } },
-                scales: {
-                    x: { grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#888', maxTicksLimit: 15, maxRotation: 45 } },
-                    y: { grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#888', callback: (val) => '$' + val + 'M' } }
-                }
+        async function loadData() {
+            try {
+                const response = await fetch('data.json');
+                const data = await response.json();
+                document.getElementById('volume24hr').textContent = formatCurrency(data.volume_24hr);
+                document.getElementById('volume1wk').textContent = formatCurrency(data.volume_1wk);
+                document.getElementById('volume1mo').textContent = formatCurrency(data.volume_1mo);
+                document.getElementById('lastUpdate').textContent = data.last_updated;
+            } catch (error) {
+                document.getElementById('volume24hr').textContent = 'API Error';
+                document.getElementById('volume1wk').textContent = 'API Error';
+                document.getElementById('volume1mo').textContent = 'API Error';
+                document.getElementById('lastUpdate').textContent = 'Check GitHub Actions';
             }
-        });
-
-        const weeklyCtx = document.getElementById('weeklyChart').getContext('2d');
-        new Chart(weeklyCtx, {
-            type: 'line',
-            data: {
-                labels: weeklyData.map(d => d.week),
-                datasets: [{
-                    label: 'Weekly Notional Volume ($B)',
-                    data: weeklyData.map(d => d.volume),
-                    borderColor: '#f7931e',
-                    backgroundColor: 'rgba(247, 147, 30, 0.2)',
-                    fill: true,
-                    tension: 0.3,
-                    pointRadius: 6,
-                    pointBackgroundColor: '#f7931e'
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx) => '$' + ctx.raw.toFixed(3) + 'B' } } },
-                scales: {
-                    x: { grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#888' } },
-                    y: { grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#888', callback: (val) => '$' + val + 'B' }, min: 0 }
-                }
-            }
-        });
+        }
+        function formatCurrency(value) {
+            if (value >= 1e9) return '$' + (value / 1e9).toFixed(2) + 'B';
+            if (value >= 1e6) return '$' + (value / 1e6).toFixed(1) + 'M';
+            if (value >= 1e3) return '$' + (value / 1e3).toFixed(1) + 'K';
+            return '$' + value.toFixed(0);
+        }
+        loadData();
     </script>
 </body>
 </html>
