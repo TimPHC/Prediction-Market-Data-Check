@@ -1,546 +1,552 @@
 {
   "daily_data": [
     {
-      "date": "2025-11-25",
-      "volume": 336929860,
-      "volume_millions": 336.93
-    },
-    {
       "date": "2025-11-26",
-      "volume": 311617145,
-      "volume_millions": 311.62
+      "volume": 239772127,
+      "volume_millions": 239.77
     },
     {
       "date": "2025-11-27",
-      "volume": 268816745,
-      "volume_millions": 268.82
+      "volume": 318133892,
+      "volume_millions": 318.13
     },
     {
       "date": "2025-11-28",
-      "volume": 279123507,
-      "volume_millions": 279.12
+      "volume": 259833584,
+      "volume_millions": 259.83
     },
     {
       "date": "2025-11-29",
-      "volume": 169891504,
-      "volume_millions": 169.89
+      "volume": 138139610,
+      "volume_millions": 138.14
     },
     {
       "date": "2025-11-30",
-      "volume": 117240298,
-      "volume_millions": 117.24
+      "volume": 157286132,
+      "volume_millions": 157.29
     },
     {
       "date": "2025-12-01",
-      "volume": 331436159,
-      "volume_millions": 331.44
+      "volume": 258654628,
+      "volume_millions": 258.65
     },
     {
       "date": "2025-12-02",
-      "volume": 355090285,
-      "volume_millions": 355.09
+      "volume": 301967763,
+      "volume_millions": 301.97
     },
     {
       "date": "2025-12-03",
-      "volume": 298565199,
-      "volume_millions": 298.57
+      "volume": 337723169,
+      "volume_millions": 337.72
     },
     {
       "date": "2025-12-04",
-      "volume": 340604948,
-      "volume_millions": 340.6
+      "volume": 269751540,
+      "volume_millions": 269.75
     },
     {
       "date": "2025-12-05",
-      "volume": 262718880,
-      "volume_millions": 262.72
+      "volume": 304400859,
+      "volume_millions": 304.4
     },
     {
       "date": "2025-12-06",
-      "volume": 176270021,
-      "volume_millions": 176.27
+      "volume": 172492500,
+      "volume_millions": 172.49
     },
     {
       "date": "2025-12-07",
-      "volume": 143606904,
-      "volume_millions": 143.61
+      "volume": 184092612,
+      "volume_millions": 184.09
     },
     {
       "date": "2025-12-08",
-      "volume": 273203466,
-      "volume_millions": 273.2
+      "volume": 325242710,
+      "volume_millions": 325.24
     },
     {
       "date": "2025-12-09",
-      "volume": 329467334,
-      "volume_millions": 329.47
+      "volume": 325024672,
+      "volume_millions": 325.02
     },
     {
       "date": "2025-12-10",
-      "volume": 264072586,
-      "volume_millions": 264.07
+      "volume": 272615978,
+      "volume_millions": 272.62
     },
     {
       "date": "2025-12-11",
-      "volume": 341846601,
-      "volume_millions": 341.85
+      "volume": 335166279,
+      "volume_millions": 335.17
     },
     {
       "date": "2025-12-12",
-      "volume": 285096956,
-      "volume_millions": 285.1
+      "volume": 308561115,
+      "volume_millions": 308.56
     },
     {
       "date": "2025-12-13",
-      "volume": 176660744,
-      "volume_millions": 176.66
+      "volume": 125450423,
+      "volume_millions": 125.45
     },
     {
       "date": "2025-12-14",
-      "volume": 180782888,
-      "volume_millions": 180.78
+      "volume": 204394274,
+      "volume_millions": 204.39
     },
     {
       "date": "2025-12-15",
-      "volume": 290666868,
-      "volume_millions": 290.67
+      "volume": 353938741,
+      "volume_millions": 353.94
     },
     {
       "date": "2025-12-16",
-      "volume": 270133769,
-      "volume_millions": 270.13
+      "volume": 334023080,
+      "volume_millions": 334.02
     },
     {
       "date": "2025-12-17",
-      "volume": 300705904,
-      "volume_millions": 300.71
+      "volume": 270574330,
+      "volume_millions": 270.57
     },
     {
       "date": "2025-12-18",
-      "volume": 255565241,
-      "volume_millions": 255.57
+      "volume": 359093284,
+      "volume_millions": 359.09
     },
     {
       "date": "2025-12-19",
-      "volume": 333817813,
-      "volume_millions": 333.82
+      "volume": 374044537,
+      "volume_millions": 374.04
     },
     {
       "date": "2025-12-20",
-      "volume": 194060877,
-      "volume_millions": 194.06
+      "volume": 200968962,
+      "volume_millions": 200.97
     },
     {
       "date": "2025-12-21",
-      "volume": 205246038,
-      "volume_millions": 205.25
+      "volume": 171267658,
+      "volume_millions": 171.27
     },
     {
       "date": "2025-12-22",
-      "volume": 348788051,
-      "volume_millions": 348.79
+      "volume": 368757806,
+      "volume_millions": 368.76
     },
     {
       "date": "2025-12-23",
-      "volume": 372462030,
-      "volume_millions": 372.46
+      "volume": 347428188,
+      "volume_millions": 347.43
     },
     {
       "date": "2025-12-24",
-      "volume": 352521114,
-      "volume_millions": 352.52
+      "volume": 357402259,
+      "volume_millions": 357.4
     },
     {
       "date": "2025-12-25",
-      "volume": 264205845,
-      "volume_millions": 264.21
+      "volume": 307062736,
+      "volume_millions": 307.06
     },
     {
       "date": "2025-12-26",
-      "volume": 309641299,
-      "volume_millions": 309.64
+      "volume": 277297136,
+      "volume_millions": 277.3
     },
     {
       "date": "2025-12-27",
-      "volume": 184208540,
-      "volume_millions": 184.21
+      "volume": 208423976,
+      "volume_millions": 208.42
     },
     {
       "date": "2025-12-28",
-      "volume": 157120958,
-      "volume_millions": 157.12
+      "volume": 193002579,
+      "volume_millions": 193.0
     },
     {
       "date": "2025-12-29",
-      "volume": 330980128,
-      "volume_millions": 330.98
+      "volume": 267552198,
+      "volume_millions": 267.55
     },
     {
       "date": "2025-12-30",
-      "volume": 282830133,
-      "volume_millions": 282.83
+      "volume": 340835295,
+      "volume_millions": 340.84
     },
     {
       "date": "2025-12-31",
-      "volume": 301405956,
-      "volume_millions": 301.41
+      "volume": 330945157,
+      "volume_millions": 330.95
     },
     {
       "date": "2026-01-01",
-      "volume": 379030209,
-      "volume_millions": 379.03
+      "volume": 304906594,
+      "volume_millions": 304.91
     },
     {
       "date": "2026-01-02",
-      "volume": 369141495,
-      "volume_millions": 369.14
+      "volume": 306822195,
+      "volume_millions": 306.82
     },
     {
       "date": "2026-01-03",
-      "volume": 177806495,
-      "volume_millions": 177.81
+      "volume": 204173985,
+      "volume_millions": 204.17
     },
     {
       "date": "2026-01-04",
-      "volume": 184106894,
-      "volume_millions": 184.11
+      "volume": 175640862,
+      "volume_millions": 175.64
     },
     {
       "date": "2026-01-05",
-      "volume": 331431869,
-      "volume_millions": 331.43
+      "volume": 366699199,
+      "volume_millions": 366.7
     },
     {
       "date": "2026-01-06",
-      "volume": 348735586,
-      "volume_millions": 348.74
+      "volume": 309898492,
+      "volume_millions": 309.9
     },
     {
       "date": "2026-01-07",
-      "volume": 317270439,
-      "volume_millions": 317.27
+      "volume": 274077473,
+      "volume_millions": 274.08
     },
     {
       "date": "2026-01-08",
-      "volume": 384106734,
-      "volume_millions": 384.11
+      "volume": 299796370,
+      "volume_millions": 299.8
     },
     {
       "date": "2026-01-09",
-      "volume": 277198366,
-      "volume_millions": 277.2
+      "volume": 333621530,
+      "volume_millions": 333.62
     },
     {
       "date": "2026-01-10",
-      "volume": 184234799,
-      "volume_millions": 184.23
+      "volume": 165582408,
+      "volume_millions": 165.58
     },
     {
       "date": "2026-01-11",
-      "volume": 148293660,
-      "volume_millions": 148.29
+      "volume": 164354302,
+      "volume_millions": 164.35
     },
     {
       "date": "2026-01-12",
-      "volume": 327700740,
-      "volume_millions": 327.7
+      "volume": 286569283,
+      "volume_millions": 286.57
     },
     {
       "date": "2026-01-13",
-      "volume": 350023908,
-      "volume_millions": 350.02
+      "volume": 399784857,
+      "volume_millions": 399.78
     },
     {
       "date": "2026-01-14",
-      "volume": 323174649,
-      "volume_millions": 323.17
+      "volume": 297537115,
+      "volume_millions": 297.54
     },
     {
       "date": "2026-01-15",
-      "volume": 318064038,
-      "volume_millions": 318.06
+      "volume": 363006728,
+      "volume_millions": 363.01
     },
     {
       "date": "2026-01-16",
-      "volume": 347440816,
-      "volume_millions": 347.44
+      "volume": 390284780,
+      "volume_millions": 390.28
     },
     {
       "date": "2026-01-17",
-      "volume": 158470247,
-      "volume_millions": 158.47
+      "volume": 143860957,
+      "volume_millions": 143.86
     },
     {
       "date": "2026-01-18",
-      "volume": 213474068,
-      "volume_millions": 213.47
+      "volume": 183231437,
+      "volume_millions": 183.23
     },
     {
       "date": "2026-01-19",
-      "volume": 394642611,
-      "volume_millions": 394.64
+      "volume": 305244665,
+      "volume_millions": 305.24
     },
     {
       "date": "2026-01-20",
-      "volume": 357997145,
-      "volume_millions": 358.0
+      "volume": 363288828,
+      "volume_millions": 363.29
     },
     {
       "date": "2026-01-21",
-      "volume": 284781472,
-      "volume_millions": 284.78
+      "volume": 287816448,
+      "volume_millions": 287.82
     },
     {
       "date": "2026-01-22",
-      "volume": 321498822,
-      "volume_millions": 321.5
+      "volume": 409764628,
+      "volume_millions": 409.76
     },
     {
       "date": "2026-01-23",
-      "volume": 342423850,
-      "volume_millions": 342.42
+      "volume": 354417441,
+      "volume_millions": 354.42
     },
     {
       "date": "2026-01-24",
-      "volume": 207092992,
-      "volume_millions": 207.09
+      "volume": 153980207,
+      "volume_millions": 153.98
     },
     {
       "date": "2026-01-25",
-      "volume": 216345367,
-      "volume_millions": 216.35
+      "volume": 177073076,
+      "volume_millions": 177.07
     },
     {
       "date": "2026-01-26",
-      "volume": 407175194,
-      "volume_millions": 407.18
+      "volume": 389397002,
+      "volume_millions": 389.4
     },
     {
       "date": "2026-01-27",
-      "volume": 379043801,
-      "volume_millions": 379.04
+      "volume": 328711224,
+      "volume_millions": 328.71
     },
     {
       "date": "2026-01-28",
-      "volume": 327545019,
-      "volume_millions": 327.55
+      "volume": 294823949,
+      "volume_millions": 294.82
     },
     {
       "date": "2026-01-29",
-      "volume": 393031352,
-      "volume_millions": 393.03
+      "volume": 405571113,
+      "volume_millions": 405.57
     },
     {
       "date": "2026-01-30",
-      "volume": 331320454,
-      "volume_millions": 331.32
+      "volume": 300707276,
+      "volume_millions": 300.71
     },
     {
       "date": "2026-01-31",
-      "volume": 229440942,
-      "volume_millions": 229.44
+      "volume": 202347314,
+      "volume_millions": 202.35
     },
     {
       "date": "2026-02-01",
-      "volume": 135395133,
-      "volume_millions": 135.4
+      "volume": 215337270,
+      "volume_millions": 215.34
     },
     {
       "date": "2026-02-02",
-      "volume": 331709454,
-      "volume_millions": 331.71
+      "volume": 347332524,
+      "volume_millions": 347.33
     },
     {
       "date": "2026-02-03",
-      "volume": 329173973,
-      "volume_millions": 329.17
+      "volume": 291403193,
+      "volume_millions": 291.4
     },
     {
       "date": "2026-02-04",
-      "volume": 396537985,
-      "volume_millions": 396.54
+      "volume": 317754549,
+      "volume_millions": 317.75
     },
     {
       "date": "2026-02-05",
-      "volume": 334402460,
-      "volume_millions": 334.4
+      "volume": 385643841,
+      "volume_millions": 385.64
     },
     {
       "date": "2026-02-06",
-      "volume": 340173500,
-      "volume_millions": 340.17
+      "volume": 394039862,
+      "volume_millions": 394.04
     },
     {
       "date": "2026-02-07",
-      "volume": 198953602,
-      "volume_millions": 198.95
+      "volume": 186906239,
+      "volume_millions": 186.91
     },
     {
       "date": "2026-02-08",
-      "volume": 191020813,
-      "volume_millions": 191.02
+      "volume": 233781265,
+      "volume_millions": 233.78
     },
     {
       "date": "2026-02-09",
-      "volume": 342779213,
-      "volume_millions": 342.78
+      "volume": 308153900,
+      "volume_millions": 308.15
     },
     {
       "date": "2026-02-10",
-      "volume": 321991070,
-      "volume_millions": 321.99
+      "volume": 341192891,
+      "volume_millions": 341.19
     },
     {
       "date": "2026-02-11",
-      "volume": 340741176,
-      "volume_millions": 340.74
+      "volume": 301811833,
+      "volume_millions": 301.81
     },
     {
       "date": "2026-02-12",
-      "volume": 398049821,
-      "volume_millions": 398.05
+      "volume": 294000540,
+      "volume_millions": 294.0
     },
     {
       "date": "2026-02-13",
-      "volume": 403238299,
-      "volume_millions": 403.24
+      "volume": 417559952,
+      "volume_millions": 417.56
     },
     {
       "date": "2026-02-14",
-      "volume": 152097396,
-      "volume_millions": 152.1
+      "volume": 184428117,
+      "volume_millions": 184.43
     },
     {
       "date": "2026-02-15",
-      "volume": 149473082,
-      "volume_millions": 149.47
+      "volume": 178960991,
+      "volume_millions": 178.96
     },
     {
       "date": "2026-02-16",
-      "volume": 380216701,
-      "volume_millions": 380.22
+      "volume": 394180262,
+      "volume_millions": 394.18
     },
     {
       "date": "2026-02-17",
-      "volume": 332954562,
-      "volume_millions": 332.95
+      "volume": 324589714,
+      "volume_millions": 324.59
     },
     {
       "date": "2026-02-18",
-      "volume": 419617202,
-      "volume_millions": 419.62
+      "volume": 347137942,
+      "volume_millions": 347.14
     },
     {
       "date": "2026-02-19",
-      "volume": 416712374,
-      "volume_millions": 416.71
+      "volume": 408435241,
+      "volume_millions": 408.44
     },
     {
       "date": "2026-02-20",
-      "volume": 319803816,
-      "volume_millions": 319.8
+      "volume": 388825893,
+      "volume_millions": 388.83
     },
     {
       "date": "2026-02-21",
-      "volume": 192991382,
-      "volume_millions": 192.99
+      "volume": 212002338,
+      "volume_millions": 212.0
     },
     {
       "date": "2026-02-22",
-      "volume": 199109622,
-      "volume_millions": 199.11
+      "volume": 161140323,
+      "volume_millions": 161.14
+    },
+    {
+      "date": "2026-02-23",
+      "volume": 333822345,
+      "volume_millions": 333.82
     }
   ],
   "weekly_data": [
     {
       "week_start": "2025-11-24",
-      "volume": 1483619059,
-      "volume_millions": 1483.62,
-      "volume_billions": 1.484
+      "volume": 1113165345,
+      "volume_millions": 1113.17,
+      "volume_billions": 1.113
     },
     {
       "week_start": "2025-12-01",
-      "volume": 1908292396,
-      "volume_millions": 1908.29,
-      "volume_billions": 1.908
+      "volume": 1829083071,
+      "volume_millions": 1829.08,
+      "volume_billions": 1.829
     },
     {
       "week_start": "2025-12-08",
-      "volume": 1851130575,
-      "volume_millions": 1851.13,
-      "volume_billions": 1.851
+      "volume": 1896455451,
+      "volume_millions": 1896.46,
+      "volume_billions": 1.896
     },
     {
       "week_start": "2025-12-15",
-      "volume": 1850196510,
-      "volume_millions": 1850.2,
-      "volume_billions": 1.85
+      "volume": 2063910592,
+      "volume_millions": 2063.91,
+      "volume_billions": 2.064
     },
     {
       "week_start": "2025-12-22",
-      "volume": 1988947837,
-      "volume_millions": 1988.95,
-      "volume_billions": 1.989
+      "volume": 2059374680,
+      "volume_millions": 2059.37,
+      "volume_billions": 2.059
     },
     {
       "week_start": "2025-12-29",
-      "volume": 2025301310,
-      "volume_millions": 2025.3,
-      "volume_billions": 2.025
+      "volume": 1930876286,
+      "volume_millions": 1930.88,
+      "volume_billions": 1.931
     },
     {
       "week_start": "2026-01-05",
-      "volume": 1991271453,
-      "volume_millions": 1991.27,
-      "volume_billions": 1.991
+      "volume": 1914029774,
+      "volume_millions": 1914.03,
+      "volume_billions": 1.914
     },
     {
       "week_start": "2026-01-12",
-      "volume": 2038348466,
-      "volume_millions": 2038.35,
-      "volume_billions": 2.038
+      "volume": 2064275157,
+      "volume_millions": 2064.28,
+      "volume_billions": 2.064
     },
     {
       "week_start": "2026-01-19",
-      "volume": 2124782259,
-      "volume_millions": 2124.78,
-      "volume_billions": 2.125
+      "volume": 2051585293,
+      "volume_millions": 2051.59,
+      "volume_billions": 2.052
     },
     {
       "week_start": "2026-01-26",
-      "volume": 2202951895,
-      "volume_millions": 2202.95,
-      "volume_billions": 2.203
+      "volume": 2136895148,
+      "volume_millions": 2136.9,
+      "volume_billions": 2.137
     },
     {
       "week_start": "2026-02-02",
-      "volume": 2121971787,
-      "volume_millions": 2121.97,
-      "volume_billions": 2.122
+      "volume": 2156861473,
+      "volume_millions": 2156.86,
+      "volume_billions": 2.157
     },
     {
       "week_start": "2026-02-09",
-      "volume": 2108370057,
-      "volume_millions": 2108.37,
-      "volume_billions": 2.108
+      "volume": 2026108224,
+      "volume_millions": 2026.11,
+      "volume_billions": 2.026
     },
     {
       "week_start": "2026-02-16",
-      "volume": 2261405659,
-      "volume_millions": 2261.41,
-      "volume_billions": 2.261
+      "volume": 2236311713,
+      "volume_millions": 2236.31,
+      "volume_billions": 2.236
+    },
+    {
+      "week_start": "2026-02-23",
+      "volume": 333822345,
+      "volume_millions": 333.82,
+      "volume_billions": 0.334
     }
   ],
   "metrics": {
-    "volume_24h": 278380804,
-    "volume_24h_millions": 278.38,
-    "open_interest": 445607605,
-    "open_interest_millions": 445.61,
-    "active_markets": 1149,
-    "estimated_daily_revenue": 5567616.08
+    "volume_24h": 293346353,
+    "volume_24h_millions": 293.35,
+    "open_interest": 564286774,
+    "open_interest_millions": 564.29,
+    "active_markets": 854,
+    "estimated_daily_revenue": 5866927.06
   },
   "source": "Generated from historical patterns (API unavailable)",
-  "last_updated": "2026-02-23 06:57:47 UTC",
+  "last_updated": "2026-02-24 06:53:03 UTC",
   "update_frequency": "Daily via GitHub Actions",
   "note": "Volume data based on Kalshi market patterns (~$2B weekly)"
 }
